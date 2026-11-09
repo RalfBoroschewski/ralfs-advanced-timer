@@ -44,7 +44,7 @@ class Preferences {
 			final String[] alarmStrings = new String[ALARM_STRING_PARTS_NUMBER];
 
 			for (int index = 0; index < alarmStrings.length; index++) {
-				alarmStrings[index] = "Future Expansation";
+				alarmStrings[index] = "Future Expansion";
 			}
 			alarmStrings[0] = item.getName();
 			alarmStrings[1] = item.getTime();
@@ -120,7 +120,7 @@ class Preferences {
 			final String[] alarmStrings = new String[ALARM_SOUND_STRING_PARTS_NUMBER];
 
 			for (int index = 0; index < alarmStrings.length; index++) {
-				alarmStrings[index] = "Future Expansation";
+				alarmStrings[index] = "Future Expansion";
 			}
 			alarmStrings[0] = item.getName();
 			alarmStrings[1] = item.getPath();

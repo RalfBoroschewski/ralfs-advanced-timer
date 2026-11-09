@@ -83,10 +83,9 @@ class Systray {
 		trayIcon.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(final java.awt.event.MouseEvent event) {
+				final Preferences.SystrayMode systrayMode = hasSystray() ? Preferences.getSystrayMode()
+						: Preferences.SystrayMode.NOT_IN_SYSTRAY;
 				if (SwingUtilities.isLeftMouseButton(event)) {
-					final Preferences.SystrayMode systrayMode = hasSystray() ? Preferences.getSystrayMode()
-							: Preferences.SystrayMode.NOT_IN_SYSTRAY;
-
 					switch (systrayMode) {
 					case ONLY_IN_SYSTRAY:
 						showAtSystray(event);
@@ -98,7 +97,12 @@ class Systray {
 						break;
 					}
 				} else if (SwingUtilities.isRightMouseButton(event)) {
-					showAtSystray(event);
+					if (systrayMode == Preferences.SystrayMode.ONLY_IN_SYSTRAY) {
+						showAtSystray(event);
+					} else {
+						showNormal();
+					}
+
 				}
 				mouseClickedCounter++;
 			}
