@@ -15,8 +15,10 @@ class Preferences {
 	private static final java.util.prefs.Preferences PREFERENCES_ROOT = java.util.prefs.Preferences.userRoot()
 			.node("/com/ralf/rat");
 
-	private static final String ALARMS = "alarms";
-	private static final String SOUNDS = "sounds";
+	private static final String ALARM_HEADER = "alarms";
+	private static final String NUMBER_ALARMS = "number alarms";
+	private static final String SOUND_HEADER = "sounds";
+	private static final String NUMBER_SOUNDS = "number sounds";
 	private static final String DEFAULT_SOUND_NAME = "default sound name";
 	private static final String DEFAULT_SOUND_PATH = "default sound path";
 	private static final String DEFAULT_SOUND_IS_RESOURCE = "default sound is resource";
@@ -38,9 +40,12 @@ class Preferences {
 	}
 
 	static void setAlarms(final List<AlarmManager.AlarmManagerItem> items) {
-		final StringBuilder alarms = new StringBuilder();
-		boolean isFirst = true;
+
+		PREFERENCES_ROOT.put(NUMBER_ALARMS, "" + items.size());
+
+		int alarmIndex = 0;
 		for (final AlarmManager.AlarmManagerItem item : items) {
+			final StringBuilder alarm = new StringBuilder();
 			final String[] alarmStrings = new String[ALARM_STRING_PARTS_NUMBER];
 
 			for (int index = 0; index < alarmStrings.length; index++) {
@@ -61,37 +66,27 @@ class Preferences {
 				alarmStrings[4] = "";
 			}
 
-			if (!isFirst) {
-				alarms.append(SEPARATOR);
-			}
-
 			for (int index = 0; index < alarmStrings.length - 1; index++) {
-				alarms.append(alarmStrings[index]);
-				alarms.append(SEPARATOR);
+				alarm.append(alarmStrings[index]);
+				alarm.append(SEPARATOR);
 			}
-			alarms.append(alarmStrings[alarmStrings.length - 1]);
+			alarm.append(alarmStrings[alarmStrings.length - 1]);
 
-			isFirst = false;
+			PREFERENCES_ROOT.put(ALARM_HEADER + alarmIndex++, alarm.toString());
 		}
-		PREFERENCES_ROOT.put(ALARMS, alarms.toString());
 
 		flush();
 
 	}
 
 	static ArrayList<AlarmManager.AlarmManagerItem> getAlarms() {
+
+		final int numberAlarms = Integer.parseInt(PREFERENCES_ROOT.get(NUMBER_ALARMS, "0"));
 		final ArrayList<AlarmManager.AlarmManagerItem> items = new ArrayList<>();
-		final String alarmsString = PREFERENCES_ROOT.get(ALARMS, "");
 
-		final String[] alarmsStrings = alarmsString.split(SEPARATOR);
-
-		int alarmStringsOffset = 0;
-
-		while (alarmStringsOffset < alarmsStrings.length - 1) {
-			final String[] alarmStrings = new String[ALARM_STRING_PARTS_NUMBER];
-			for (int index = 0; index < alarmStrings.length; index++) {
-				alarmStrings[index] = alarmsStrings[index + alarmStringsOffset];
-			}
+		for (int alarmIndex = 0; alarmIndex < numberAlarms; alarmIndex++) {
+			final String alarmsString = PREFERENCES_ROOT.get(ALARM_HEADER + alarmIndex, "");
+			final String[] alarmStrings = alarmsString.split(SEPARATOR);
 
 			final boolean isResource = alarmStrings[4].equals("1");
 
@@ -105,8 +100,6 @@ class Preferences {
 			AlarmManager.AlarmManagerItem item = new AlarmManager.AlarmManagerItem(alarmStrings[0], alarmStrings[1],
 					alarmSoundData);
 			items.add(item);
-
-			alarmStringsOffset += alarmStrings.length;
 		}
 
 		return items;
@@ -114,9 +107,12 @@ class Preferences {
 	}
 
 	static void setSounds(final List<SoundManager.SoundManagerItem> items) {
-		final StringBuilder alarms = new StringBuilder();
-		boolean isFirst = true;
+
+		PREFERENCES_ROOT.put(NUMBER_SOUNDS, "" + items.size());
+
+		int indexItem = 0;
 		for (final SoundManager.SoundManagerItem item : items) {
+			final StringBuilder alarms = new StringBuilder();
 			final String[] alarmStrings = new String[ALARM_SOUND_STRING_PARTS_NUMBER];
 
 			for (int index = 0; index < alarmStrings.length; index++) {
@@ -125,42 +121,29 @@ class Preferences {
 			alarmStrings[0] = item.getName();
 			alarmStrings[1] = item.getPath();
 
-			if (!isFirst) {
-				alarms.append(SEPARATOR);
-			}
-
 			for (int index = 0; index < alarmStrings.length - 1; index++) {
 				alarms.append(alarmStrings[index]);
 				alarms.append(SEPARATOR);
 			}
 			alarms.append(alarmStrings[alarmStrings.length - 1]);
 
-			isFirst = false;
+			PREFERENCES_ROOT.put(SOUND_HEADER + indexItem++, alarms.toString());
 		}
-		PREFERENCES_ROOT.put(SOUNDS, alarms.toString());
 
 		flush();
 	}
 
 	static ArrayList<SoundManager.SoundManagerItem> getSounds() {
 		final ArrayList<SoundManager.SoundManagerItem> items = new ArrayList<>();
-		final String alarmsString = PREFERENCES_ROOT.get(SOUNDS, "");
 
-		final String[] alarmsStrings = alarmsString.split(SEPARATOR);
+		final int numberAlarms = Integer.parseInt(PREFERENCES_ROOT.get(NUMBER_SOUNDS, "0"));
 
-		int alarmStringsOffset = 0;
-
-		while (alarmStringsOffset < alarmsStrings.length - 1) {
-			final String[] alarmStrings = new String[ALARM_SOUND_STRING_PARTS_NUMBER];
-			for (int index = 0; index < alarmStrings.length; index++) {
-				alarmStrings[index] = alarmsStrings[index + alarmStringsOffset];
-			}
-
+		for (int soundIndex = 0; soundIndex < numberAlarms; soundIndex++) {
+			final String soundString = PREFERENCES_ROOT.get(SOUND_HEADER + soundIndex, "");
+			final String[] alarmStrings = soundString.split(SEPARATOR);
 			final SoundManager.SoundManagerItem item = new SoundManager.SoundManagerItem(alarmStrings[0],
 					alarmStrings[1]);
 			items.add(item);
-
-			alarmStringsOffset += alarmStrings.length;
 		}
 
 		return items;

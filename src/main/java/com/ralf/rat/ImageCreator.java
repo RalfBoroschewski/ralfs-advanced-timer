@@ -299,8 +299,8 @@ abstract class ImageCreatorBase {
 
 class ImageCreatorJavaFx extends ImageCreatorBase {
 
-	private WritableImage image;
-	private PixelWriter pixelWriter;
+	private final WritableImage image;
+	private final PixelWriter pixelWriter;
 
 	static int colorToArgb(javafx.scene.paint.Color color) {
 		int alpha = (int) Math.round(color.getOpacity() * 255);
