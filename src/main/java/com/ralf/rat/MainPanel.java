@@ -63,6 +63,7 @@ public class MainPanel {
 		pauseButton = new Button(MainClass.messages.getString(PAUSE_KEY));
 		repeatButton = new Button("Dummy\nDummy");
 		alarmManagerButton = new Button(MainClass.messages.getString("MainPanel.alarm.manager"));
+
 	}
 
 	void init(final Pane titlePane, final Pane bottomPane, boolean isSystray) {

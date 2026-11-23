@@ -38,7 +38,7 @@ class BellIcon {
 		this.timeDurationText = timeDurationText;
 	}
 
-	@SuppressWarnings("java:S4507")
+	@SuppressWarnings({ "java:S4507" })
 	void play() {
 
 		Platform.runLater(() -> {
@@ -84,7 +84,7 @@ class BellIcon {
 			stackPane.getChildren().addAll(nodes);
 			stackPane.setStyle("-fx-background-color: transparent;");
 
-			final StrokeTransition transition = new StrokeTransition(new Duration(100.), circle);
+			StrokeTransition transition = new StrokeTransition(new Duration(100.), circle);
 
 			transition.setFromValue(Color.RED);
 			transition.setToValue(Color.BLUE);
@@ -122,11 +122,11 @@ class BellIcon {
 
 	@SuppressWarnings({ "java:S1643" })
 	private TextsToBeShown getTexts(final String name, final String timeDurationText, final double diameter,
-			final double circleStrokeWidth, final Font font) {
+			final double circleStrokeWidth, Font font) {
 		double width = 0;
 		String nameToBeShown = name.trim();
 
-		final double minimalDistanceCircleText = 1;
+		double minimalDistanceCircleText = 1;
 
 		do {
 			width = getWidthText(nameToBeShown + "...", font);
@@ -164,10 +164,10 @@ class BellIcon {
 		return result;
 	}
 
-	private double getWidthText(final String text, final Font font) {
+	private double getWidthText(String text, Font font) {
 		final Text textForDefiningTheWidthOfTheText = new Text(text + "...");
 		textForDefiningTheWidthOfTheText.setFont(font);
-		final Bounds bounds = textForDefiningTheWidthOfTheText.getLayoutBounds();
+		Bounds bounds = textForDefiningTheWidthOfTheText.getLayoutBounds();
 		return bounds.getWidth();
 	}
 

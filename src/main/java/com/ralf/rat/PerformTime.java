@@ -15,7 +15,7 @@ class PerformTime {
 	private final MainClass mainClass;
 	private static final String TITLE = MainClass.messages.getString("title");
 
-	static final int INTERVAL_LENGTH_IN_SECONDS = 15;
+	static int INTERVAL_LENGTH_IN_SECONDS = 15;
 
 	PerformTime(final int hour, final int minute, final MainClass mainClass) {
 		this.hour = hour;
@@ -23,7 +23,7 @@ class PerformTime {
 		this.mainClass = mainClass;
 	}
 
-	void start() {
+	public void start() {
 		final MainPanel mainPanel = mainClass.getMainPanel();
 		mainPanel.setRepeatButton(null);
 
