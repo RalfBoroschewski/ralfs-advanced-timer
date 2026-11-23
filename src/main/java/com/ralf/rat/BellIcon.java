@@ -32,7 +32,7 @@ class BellIcon {
 
 	Stage stage;
 
-	BellIcon(final String name, final AlarmSounds.AlarmSoundData alarmSoundData, String timeDurationText) {
+	BellIcon(final String name, final AlarmSounds.AlarmSoundData alarmSoundData, final String timeDurationText) {
 		this.name = name;
 		this.alarmSoundData = alarmSoundData;
 		this.timeDurationText = timeDurationText;
