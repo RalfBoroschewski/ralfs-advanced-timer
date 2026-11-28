@@ -25,6 +25,7 @@ class PerformTime {
 
 	public void start() {
 		final MainPanel mainPanel = mainClass.getMainPanel();
+		mainPanel.deactivate();
 		mainPanel.setRepeatButton(null);
 
 		mainPanel.oldPerformTime = this;
